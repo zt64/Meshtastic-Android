@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025-2026 Meshtastic LLC
+ * Copyright (c) 2026 Meshtastic LLC
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,11 +157,13 @@ class MQTTRepositoryImpl(
                 }
                 when {
                     result.isSuccess -> return@launch
+
                     result.exceptionOrNull() is MqttException.ConnectionRejected -> {
                         Logger.e(result.exceptionOrNull()) { "MQTT connection rejected (unrecoverable), stopping" }
                         close(result.exceptionOrNull()!!)
                         return@launch
                     }
+
                     else -> {
                         Logger.e(result.exceptionOrNull()) { "MQTT connect failed, retrying in ${reconnectDelay}ms" }
                         delay(reconnectDelay)

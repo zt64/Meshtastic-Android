@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025-2026 Meshtastic LLC
+ * Copyright (c) 2026 Meshtastic LLC
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,6 +109,7 @@ class MeshConfigFlowManagerImpl(
                 }
                 handleConfigOnlyComplete(state)
             }
+
             HandshakeConstants.NODE_INFO_NONCE -> {
                 if (state !is HandshakeState.ReceivingNodeInfo) {
                     Logger.w { "Ignoring Stage 2 config_complete in state=$state" }
@@ -116,6 +117,7 @@ class MeshConfigFlowManagerImpl(
                 }
                 handleNodeInfoComplete(state)
             }
+
             else -> Logger.w { "Config complete id mismatch: $configCompleteId" }
         }
     }
@@ -265,6 +267,7 @@ class MeshConfigFlowManagerImpl(
                     null,
                     HardwareModel.UNSET,
                     -> null
+
                     else -> hwModel.name.replace('_', '-').replace('p', '.').lowercase()
                 },
                 firmwareVersion = metadata?.firmware_version?.takeIf { it.isNotBlank() },

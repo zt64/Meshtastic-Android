@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025-2026 Meshtastic LLC
+ * Copyright (c) 2026 Meshtastic LLC
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -483,9 +483,11 @@ class BleRadioTransport(
         val msg =
             when (this) {
                 is RadioNotConnectedException -> this.message ?: "Device not found"
+
                 is NoSuchElementException,
                 is IllegalArgumentException,
                 -> "Required characteristic missing"
+
                 else -> this.message ?: this::class.simpleName ?: "Unknown"
             }
         return false to msg
